@@ -1,6 +1,8 @@
 import 'package:corona_tracker/helpers/global_constants.dart';
 import 'package:corona_tracker/models/walkthrough_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 class WalkthroughPage extends StatefulWidget {
   @override
@@ -53,7 +55,7 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
       ),
       bottomSheet: _currentIndex != GlobaolConstants.walkthroughs.length - 1
           ? Container(
-            alignment: Alignment.center,
+              alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 30),
               height: 30 + MediaQuery.of(context).padding.bottom,
               child: Row(
@@ -72,10 +74,11 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     onTap: () {
-                      print('I am here');
                       setState(() {
                         _currentIndex += 1;
-                        _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                        _pageController.animateToPage(_currentIndex,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
                       });
                     },
                   )
@@ -97,6 +100,7 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
             ),
     );
   }
+  
 }
 
 class WalkthroughWidget extends StatelessWidget {

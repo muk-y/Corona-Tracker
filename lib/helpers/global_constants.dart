@@ -9,6 +9,7 @@ class GlobaolConstants {
     WalkthroughModel(imagePath: 'images/touch_face.png', title: 'Avoid touching your face', description: 'Avoid touching your nose, eyes and mouth with unclean hands.'),
     WalkthroughModel(imagePath: 'images/wear_mask.png', title: 'Wash your hands', description: 'Wash your hands regularly with soap water or alcohol based hand rub.'),
   ].toList();
+  static String isAlreadyOpened = 'isAlreadyOpened';
 
 
 }
