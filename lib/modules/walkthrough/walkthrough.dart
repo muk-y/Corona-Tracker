@@ -9,6 +9,10 @@ class WalkthroughPage extends StatefulWidget {
 
 class _WalkthroughPageState extends State<WalkthroughPage> {
   int _currentIndex = 0;
+  PageController _pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,7 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
             ),
             Expanded(
               child: PageView.builder(
+                controller: _pageController,
                 itemCount: GlobaolConstants.walkthroughs.length,
                 itemBuilder: (context, index) {
                   return WalkthroughWidget(
@@ -66,7 +71,13 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                       'NEXT',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      print('I am here');
+                      setState(() {
+                        _currentIndex += 1;
+                        _pageController.animateToPage(_currentIndex, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                      });
+                    },
                   )
                 ],
               ),
