@@ -14,6 +14,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: "Corona Tracker",
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Color(0xFFCA5138)
+        ),
         home: SplashScreen());
   }
 }
