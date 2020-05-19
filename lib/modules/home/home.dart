@@ -15,9 +15,12 @@ class _HomeState extends State<Home> {
             _getHeaderView(),
             SizedBox(height: 30),
             _getPreventionView(),
-            Expanded(
-              child: Container(),
-            )
+            SizedBox(height: 30),
+            _getFooterView(),
+            SizedBox(height: 30),
+            // Expanded(
+            //   child: Container(),
+            // )
           ]),
     );
   }
@@ -134,49 +137,93 @@ class _HomeState extends State<Home> {
       {'image': 'images/wash_hands.png', 'msg': 'Clean your hands often'},
       {'image': 'images/wash_hands.png', 'msg': 'Wear a face mask'},
     ].toList();
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text(
-            'Prevention',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
+    return Column(children: <Widget>[
+      Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Text(
+          'Prevention',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        SizedBox(
-          height: 15,
-        ),
-        Container(
+      ),
+      SizedBox(
+        height: 15,
+      ),
+      Container(
           height: _cellHeight,
           child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5),
-                  width: _cellHeight,
-                  child: Column(children: <Widget>[
-                    Image.asset(
-                      preventionList[index]['image'],
-                      width: _cellHeight - 42,
-                      height: _cellHeight - 42,
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      preventionList[index]['msg'],
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),
-                    )
-                  ]),
-                );
-              },
-              itemCount: preventionList.length,
-          )
-        )
-      ]
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 5),
+                width: _cellHeight,
+                child: Column(children: <Widget>[
+                  Image.asset(
+                    preventionList[index]['image'],
+                    width: _cellHeight - 42,
+                    height: _cellHeight - 42,
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    preventionList[index]['msg'],
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                ]),
+              );
+            },
+            itemCount: preventionList.length,
+          ))
+    ]);
+  }
+
+  Widget _getFooterView() {
+    final double _footerHeight = 100.0;
+    return Stack(
+      alignment: Alignment.topLeft,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20),
+            height: _footerHeight,
+            width: double.infinity,
+            padding: EdgeInsets.all(12.0),
+            child: Padding(
+              padding: EdgeInsets.only(left: _footerHeight),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Do your own test!',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14)),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Follow the instructions to do your own test',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(color: Colors.white, 
+                    fontSize: 12,
+                    wordSpacing: 1.5),
+                  ),
+                ],
+              ),
+            ),
+            decoration: BoxDecoration(
+                color: Colors.red, borderRadius: BorderRadius.circular(20)),
+          ),
+        ),
+        Container(
+            margin: EdgeInsets.symmetric(horizontal: 15),
+            width: _footerHeight + 10,
+            height: _footerHeight + 10,
+            child: Image.asset('images/nurse.png'))
+      ],
     );
   }
 }
