@@ -10,6 +10,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
+        physics: ClampingScrollPhysics(),
           children: <Widget>[
             _getHeaderView(),
             SizedBox(height: 30),
