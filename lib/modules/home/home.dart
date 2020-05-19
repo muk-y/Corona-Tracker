@@ -210,7 +210,8 @@ class _HomeState extends State<Home> {
               ),
             ),
             decoration: BoxDecoration(
-                color: Colors.red, borderRadius: BorderRadius.circular(20)),
+              gradient: LinearGradient(colors: [Colors.orange, Colors.redAccent]),
+              borderRadius: BorderRadius.circular(20)),
           ),
         ),
         Container(
