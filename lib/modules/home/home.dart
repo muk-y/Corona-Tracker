@@ -27,23 +27,29 @@ class _HomeState extends State<Home> {
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: <Widget>[
-          Text(
-            'Covid-19',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: 20,
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Covid-19',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 20,
+              ),
             ),
           ),
           SizedBox(height: 20),
-          Text(
-            'Are you feeling sick?',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              fontSize: 18,
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Are you feeling sick?',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
           ),
           SizedBox(height: 15),
