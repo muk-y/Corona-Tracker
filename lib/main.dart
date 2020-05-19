@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: "Corona Tracker",
         debugShowCheckedModeBanner: false,
-        home: SplashScreen());
+        home: WalkthroughPage());
   }
 }
 

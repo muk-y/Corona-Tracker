@@ -1,8 +1,6 @@
 import 'package:corona_tracker/helpers/global_constants.dart';
 import 'package:corona_tracker/models/walkthrough_model.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:async';
 
 class WalkthroughPage extends StatefulWidget {
   @override
@@ -49,7 +47,7 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                   });
                 },
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -68,6 +66,7 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                     ),
                     onTap: () {},
                   ),
+                  Row(children: _createPageIndicator()),
                   GestureDetector(
                     child: Text(
                       'NEXT',
@@ -100,7 +99,25 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
             ),
     );
   }
-  
+
+  List<Widget> _createPageIndicator() {
+    double _width = 10;
+    List<Widget> widgets = [];
+    for (int i = 0; i < GlobaolConstants.walkthroughs.length; i++) {
+      bool _selected = i == _currentIndex;
+      var widget = Container(
+        width: _selected ? _width * 2 : _width,
+        height: _width,
+        decoration: BoxDecoration(
+            color: _selected ? Colors.green : Colors.redAccent,
+            borderRadius: BorderRadius.circular(_width / 2)),
+      );
+      var box = SizedBox(width: _width / 2);
+      widgets.add(widget);
+      widgets.add(box);
+    }
+    return widgets;
+  }
 }
 
 class WalkthroughWidget extends StatelessWidget {
@@ -123,7 +140,6 @@ class WalkthroughWidget extends StatelessWidget {
             height: 50,
           ),
           Container(
-            // width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Column(
               children: <Widget>[
