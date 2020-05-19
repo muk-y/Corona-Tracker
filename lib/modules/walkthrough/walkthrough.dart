@@ -1,5 +1,6 @@
 import 'package:corona_tracker/helpers/global_constants.dart';
 import 'package:corona_tracker/models/walkthrough_model.dart';
+import 'package:corona_tracker/modules/main/main_page.dart';
 import 'package:flutter/material.dart';
 
 class WalkthroughPage extends StatefulWidget {
@@ -64,7 +65,9 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                       'SKIP',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      _navigateToMainPage(context);
+                    },
                   ),
                   Row(children: _createPageIndicator()),
                   GestureDetector(
@@ -84,18 +87,22 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
                 ],
               ),
             )
-          : Container(
-              // width: MediaQuery.of(context).size.width,
-              height: 30 + MediaQuery.of(context).padding.bottom,
-              alignment: Alignment.center,
-              color: Colors.green,
-              child: Text(
-                'GET STARTED',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.white),
+          : GestureDetector(
+              child: Container(
+                height: 30 + MediaQuery.of(context).padding.bottom,
+                alignment: Alignment.center,
+                color: Colors.green,
+                child: Text(
+                  'GET STARTED',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white),
+                ),
               ),
+              onTap: () {
+                _navigateToMainPage(context);
+              },
             ),
     );
   }
@@ -117,6 +124,11 @@ class _WalkthroughPageState extends State<WalkthroughPage> {
       widgets.add(box);
     }
     return widgets;
+  }
+
+  _navigateToMainPage(BuildContext context) {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => MainPage()));
   }
 }
 
