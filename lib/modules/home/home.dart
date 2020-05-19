@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget _getFooterView() {
-    final double _footerHeight = 100.0;
+    final double _footerHeight = 80;
     return Stack(
       alignment: Alignment.topLeft,
       children: <Widget>[
