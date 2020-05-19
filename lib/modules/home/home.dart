@@ -10,7 +10,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             _getHeaderView(),
             SizedBox(height: 30),
@@ -18,9 +17,6 @@ class _HomeState extends State<Home> {
             SizedBox(height: 30),
             _getFooterView(),
             SizedBox(height: 30),
-            // Expanded(
-            //   child: Container(),
-            // )
           ]),
     );
   }
@@ -133,9 +129,9 @@ class _HomeState extends State<Home> {
   Widget _getPreventionView() {
     double _cellHeight = (MediaQuery.of(context).size.width - 30) / 3;
     var preventionList = [
-      {'image': 'images/wash_hands.png', 'msg': 'Avoid close contact'},
-      {'image': 'images/wash_hands.png', 'msg': 'Clean your hands often'},
-      {'image': 'images/wash_hands.png', 'msg': 'Wear a face mask'},
+      {'image': 'images/close_contact.png', 'msg': 'Avoid close contact'},
+      {'image': 'images/hand_wash.png', 'msg': 'Clean your hands often'},
+      {'image': 'images/wear_mask.png', 'msg': 'Wear a face mask'},
     ].toList();
     return Column(children: <Widget>[
       Container(
@@ -207,9 +203,8 @@ class _HomeState extends State<Home> {
                   Text(
                     'Follow the instructions to do your own test',
                     textAlign: TextAlign.left,
-                    style: TextStyle(color: Colors.white, 
-                    fontSize: 12,
-                    wordSpacing: 1.5),
+                    style: TextStyle(
+                        color: Colors.white, fontSize: 12, wordSpacing: 1.5),
                   ),
                 ],
               ),
