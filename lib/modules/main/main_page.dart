@@ -1,5 +1,6 @@
 import 'package:corona_tracker/helpers/bottom_navy_bar.dart';
 import 'package:corona_tracker/modules/home/home.dart';
+import 'package:corona_tracker/modules/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -45,11 +46,8 @@ class _MainPageState extends State<MainPage> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            // Container(color: Colors.yellow),
             Home(),
-            Container(
-              color: Colors.red,
-            ),
+            StatisticsPage(),
             Container(
               color: Colors.green,
             ),
