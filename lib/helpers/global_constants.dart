@@ -11,5 +11,7 @@ class GlobaolConstants {
   ].toList();
   static String isAlreadyOpened = 'isAlreadyOpened';
 
+  //url
+  static String url = "https://corona.lmao.ninja/v2/";
 
 }
