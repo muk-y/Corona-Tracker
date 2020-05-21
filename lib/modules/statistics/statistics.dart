@@ -2,6 +2,7 @@ import 'package:corona_tracker/helpers/auth.dart';
 import 'package:corona_tracker/helpers/global_constants.dart';
 import 'package:corona_tracker/models/stat.dart';
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class StatisticsPage extends StatefulWidget {
   @override
@@ -60,12 +61,47 @@ class _StatisticsPageState extends State<StatisticsPage> {
   }
 
   _getChartData() {
+    Map<String, double> _dataMap = new Map();
+    _dataMap.putIfAbsent("Recovered", () => _stat.recovered.toDouble());
+    _dataMap.putIfAbsent("Death", () => _stat.deaths.toDouble());
+    _dataMap.putIfAbsent("Active", () => _stat.active.toDouble());
+    _dataMap.putIfAbsent("Total cases", () => _stat.cases.toDouble());
+
+    const _colorList = [
+      Color(0xFF70e0fe),
+      Colors.red,
+      Color(0xFFff5849),
+      Color(0xFFff968c),
+    ];
     return Column(
       children: <Widget>[
         Text(
           'Covid-19 Global Cases',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        PieChart(
+          dataMap: _dataMap,
+          animationDuration: Duration(milliseconds: 800),
+          chartLegendSpacing: 32.0,
+          chartRadius: MediaQuery.of(context).size.width / 2,
+          showChartValuesInPercentage: true,
+          showChartValues: true,
+          showChartValuesOutside: false,
+          chartValueBackgroundColor: Colors.transparent,
+          colorList: _colorList,
+          showLegends: true,
+          legendPosition: LegendPosition.right,
+          decimalPlaces: 1,
+          showChartValueLabel: true,
+          initialAngle: 0,
+          chartValueStyle: defaultChartValueStyle.copyWith(
+            color: Colors.white,
+          ),
+          chartType: ChartType.disc,
         ),
         SizedBox(
           height: 10,
@@ -79,10 +115,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
           physics: ScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            _getDataGridTile("Recovered", Color(0xFFCA5138), _stat.recovered),
-            _getDataGridTile("Death", Color(0xFFCA5138), _stat.deaths),
-            _getDataGridTile("Active", Color(0xFFCA5138), _stat.active),
-            _getDataGridTile("Total cases", Color(0xFFCA5138), _stat.cases)
+            _getDataGridTile("Recovered", _colorList.first, _stat.recovered),
+            _getDataGridTile("Death", _colorList[1], _stat.deaths),
+            _getDataGridTile("Active", _colorList[2], _stat.active),
+            _getDataGridTile("Total cases", _colorList.last, _stat.cases)
           ],
         )
       ],
@@ -99,7 +135,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
           Row(
             children: <Widget>[
               Container(
-                color: Colors.red,
+                color: color,
                 width: 20,
                 height: 20,
               ),
