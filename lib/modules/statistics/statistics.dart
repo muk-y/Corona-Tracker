@@ -2,6 +2,7 @@ import 'package:corona_tracker/helpers/auth.dart';
 import 'package:corona_tracker/helpers/custom_switch.dart';
 import 'package:corona_tracker/helpers/global_constants.dart';
 import 'package:corona_tracker/models/country.dart';
+import 'package:corona_tracker/modules/country_statistics/country_statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -25,7 +26,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
   @override
   void initState() {
     super.initState();
-    _getData();
+      _getData();
   }
 
   @override
@@ -234,38 +235,43 @@ class _StatisticsPageState extends State<StatisticsPage> {
           itemCount: _countries.length,
           itemBuilder: (context, index) {
             var _country = _countries[index];
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: (MediaQuery.of(context).size.width - 40) / 2,
-                      child: Column(
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CountryStatistics(country: _country)));
+              },
+                          child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: (MediaQuery.of(context).size.width - 40) / 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                          Image.network(
+                            _country.countryInfo.flag,
+                            height: _width,
+                            width: _width,
+                          ),
+                          Text('${_country.country}, ${_country.continent}'),
+                        ], ),
+                      ),
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                        Image.network(
-                          _country.countryInfo.flag,
-                          height: _width,
-                          width: _width,
-                        ),
-                        Text('${_country.country}, ${_country.continent}'),
-                      ], ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        getInfoGrid(_colorList.first, 'Recovered: ${_country.recovered}'),
-                        getInfoGrid(_colorList[1], 'Death: ${_country.deaths}'),
-                        getInfoGrid(_colorList[2], 'Active: ${_country.active}'),
-                        getInfoGrid(_colorList.last, 'Cases: ${_country.cases}')
-                      ],
-                    )
-                  ],
+                          getInfoGrid(_colorList.first, 'Recovered: ${_country.recovered}'),
+                          getInfoGrid(_colorList[1], 'Death: ${_country.deaths}'),
+                          getInfoGrid(_colorList[2], 'Active: ${_country.active}'),
+                          getInfoGrid(_colorList.last, 'Cases: ${_country.cases}')
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
-          }),
+          },),
     );
   }
 
