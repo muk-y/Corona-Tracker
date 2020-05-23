@@ -15,6 +15,13 @@ class _StatisticsPageState extends State<StatisticsPage> {
   Country _myCountry;
   bool _enable = false;
 
+    final _colorList = [
+      Color(0xFF70e0fe),
+      Colors.red,
+      Color(0xFFff5849),
+      Color(0xFFff968c),
+    ];
+
   @override
   void initState() {
     super.initState();
@@ -85,8 +92,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
                             )
                           ],
                         ),
-                        SizedBox(height: 20,),
-                        _enable ? Container(color: Colors.red) : _getMyCountryView(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        _enable ? _getWorldListView() : _getMyCountryView(),
                       ],
                     ),
                   ]),
@@ -100,12 +109,6 @@ class _StatisticsPageState extends State<StatisticsPage> {
     _dataMap.putIfAbsent("Active", () => _myCountry.active.toDouble());
     _dataMap.putIfAbsent("Total cases", () => _myCountry.cases.toDouble());
 
-    const _colorList = [
-      Color(0xFF70e0fe),
-      Colors.red,
-      Color(0xFFff5849),
-      Color(0xFFff968c),
-    ];
     return Column(
       children: <Widget>[
         Text(
@@ -148,7 +151,8 @@ class _StatisticsPageState extends State<StatisticsPage> {
           physics: ScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            _getDataGridTile("Recovered", _colorList.first, _myCountry.recovered),
+            _getDataGridTile(
+                "Recovered", _colorList.first, _myCountry.recovered),
             _getDataGridTile("Death", _colorList[1], _myCountry.deaths),
             _getDataGridTile("Active", _colorList[2], _myCountry.active),
             _getDataGridTile("Total cases", _colorList.last, _myCountry.cases)
@@ -197,12 +201,80 @@ class _StatisticsPageState extends State<StatisticsPage> {
     );
   }
 
+  _getWorldListView() {
+
+    getInfoGrid(Color color, String text) {
+      return Column(
+        children: <Widget>[
+          Row(
+                children: <Widget>[
+                  Container(
+                    color: color,
+                    width: 20,
+                    height: 20,
+                  ),
+                  SizedBox(width: 5),
+                  Text(
+                    text,
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                  ),
+                ],
+              ),
+              SizedBox(height: 4,)
+        ],
+      );
+    }
+
+    double _width = 100;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: ListView.builder(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: _countries.length,
+          itemBuilder: (context, index) {
+            var _country = _countries[index];
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: (MediaQuery.of(context).size.width - 40) / 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                        Image.network(
+                          _country.countryInfo.flag,
+                          height: _width,
+                          width: _width,
+                        ),
+                        Text('${_country.country}, ${_country.continent}'),
+                      ], ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        getInfoGrid(_colorList.first, 'Recovered: ${_country.recovered}'),
+                        getInfoGrid(_colorList[1], 'Death: ${_country.deaths}'),
+                        getInfoGrid(_colorList[2], 'Active: ${_country.active}'),
+                        getInfoGrid(_colorList.last, 'Cases: ${_country.cases}')
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          }),
+    );
+  }
+
   Future _getData() async {
     String url = "${GlobaolConstants.url}countries";
     final countries = await Auth.shared.request(url);
     setState(() {
       _countries = [];
-      for(int i = 0; i < countries.length; i++) {
+      for (int i = 0; i < countries.length; i++) {
         Country country = Country.fromJson(countries[i]);
         if (country.country.toLowerCase() == 'nepal') {
           _myCountry = country;
