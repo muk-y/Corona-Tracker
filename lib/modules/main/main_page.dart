@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(title: Text('Home'), icon: Icon(Icons.home)),
-          BottomNavyBarItem(title: Text('Item One'), icon: Icon(Icons.apps)),
+          BottomNavyBarItem(title: Text('Statistics'), icon: Icon(Icons.compare)),
           BottomNavyBarItem(
               title: Text('Item One'), icon: Icon(Icons.chat_bubble)),
           BottomNavyBarItem(

@@ -1,4 +1,5 @@
 import 'package:corona_tracker/helpers/auth.dart';
+import 'package:corona_tracker/helpers/custom_switch.dart';
 import 'package:corona_tracker/helpers/global_constants.dart';
 import 'package:corona_tracker/models/stat.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class StatisticsPage extends StatefulWidget {
 
 class _StatisticsPageState extends State<StatisticsPage> {
   Stat _stat;
+  bool _enable = false;
 
   @override
   void initState() {
@@ -43,24 +45,54 @@ class _StatisticsPageState extends State<StatisticsPage> {
                           ),
                         ),
                         SizedBox(height: 20),
-                        _getChartData()
-                        // TabBar(tabs: [
-                        //   Tab(icon: Container(color: Colors.blue)),
-                        //   Tab(icon: Container(color: Colors.red))
-                        // ]),
-                        // TabBarView(
-                        //   children: <Widget>[
-                        //     Expanded(child: Text("This is call Tab View")),
-                        //     Expanded(child: Text("This is chat Tab View"))
-                        //   ],
-                        // )
+                        Stack(
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width - 60,
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Center(
+                                    child: Text(
+                                      'My Country',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  Text(
+                                    'Global',
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25.0),
+                                color: Colors.grey[400],
+                              ),
+                            ),
+                            CustomSwitch(
+                              value: _enable,
+                              value1: 'My Country',
+                              value2: 'Global',
+                              onChanged: (bool val) {
+                                setState(() {
+                                  _enable = val;
+                                });
+                              },
+                            )
+                          ],
+                        ),
+                        SizedBox(height: 20,),
+                        _enable ?  _getGlobalView() : Container(color: Colors.red),
                       ],
                     ),
                   ]),
                 )));
   }
 
-  _getChartData() {
+  _getGlobalView() {
     Map<String, double> _dataMap = new Map();
     _dataMap.putIfAbsent("Recovered", () => _stat.recovered.toDouble());
     _dataMap.putIfAbsent("Death", () => _stat.deaths.toDouble());
