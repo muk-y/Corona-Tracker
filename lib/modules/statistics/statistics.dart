@@ -1,7 +1,7 @@
 import 'package:corona_tracker/helpers/auth.dart';
 import 'package:corona_tracker/helpers/custom_switch.dart';
 import 'package:corona_tracker/helpers/global_constants.dart';
-import 'package:corona_tracker/models/stat.dart';
+import 'package:corona_tracker/models/country.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -11,7 +11,8 @@ class StatisticsPage extends StatefulWidget {
 }
 
 class _StatisticsPageState extends State<StatisticsPage> {
-  Stat _stat;
+  List<Country> _countries;
+  Country _myCountry;
   bool _enable = false;
 
   @override
@@ -22,7 +23,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _stat == null
+    return _countries == null
         ? Center(child: CircularProgressIndicator())
         : Container(
             // color: Theme.of(context).primaryColor,
@@ -85,19 +86,19 @@ class _StatisticsPageState extends State<StatisticsPage> {
                           ],
                         ),
                         SizedBox(height: 20,),
-                        _enable ?  _getGlobalView() : Container(color: Colors.red),
+                        _enable ? Container(color: Colors.red) : _getMyCountryView(),
                       ],
                     ),
                   ]),
                 )));
   }
 
-  _getGlobalView() {
+  _getMyCountryView() {
     Map<String, double> _dataMap = new Map();
-    _dataMap.putIfAbsent("Recovered", () => _stat.recovered.toDouble());
-    _dataMap.putIfAbsent("Death", () => _stat.deaths.toDouble());
-    _dataMap.putIfAbsent("Active", () => _stat.active.toDouble());
-    _dataMap.putIfAbsent("Total cases", () => _stat.cases.toDouble());
+    _dataMap.putIfAbsent("Recovered", () => _myCountry.recovered.toDouble());
+    _dataMap.putIfAbsent("Death", () => _myCountry.deaths.toDouble());
+    _dataMap.putIfAbsent("Active", () => _myCountry.active.toDouble());
+    _dataMap.putIfAbsent("Total cases", () => _myCountry.cases.toDouble());
 
     const _colorList = [
       Color(0xFF70e0fe),
@@ -108,7 +109,7 @@ class _StatisticsPageState extends State<StatisticsPage> {
     return Column(
       children: <Widget>[
         Text(
-          'Covid-19 Global Cases',
+          'Covid-19 cases in ${_myCountry.country}',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16),
         ),
@@ -147,10 +148,10 @@ class _StatisticsPageState extends State<StatisticsPage> {
           physics: ScrollPhysics(),
           shrinkWrap: true,
           children: <Widget>[
-            _getDataGridTile("Recovered", _colorList.first, _stat.recovered),
-            _getDataGridTile("Death", _colorList[1], _stat.deaths),
-            _getDataGridTile("Active", _colorList[2], _stat.active),
-            _getDataGridTile("Total cases", _colorList.last, _stat.cases)
+            _getDataGridTile("Recovered", _colorList.first, _myCountry.recovered),
+            _getDataGridTile("Death", _colorList[1], _myCountry.deaths),
+            _getDataGridTile("Active", _colorList[2], _myCountry.active),
+            _getDataGridTile("Total cases", _colorList.last, _myCountry.cases)
           ],
         )
       ],
@@ -197,10 +198,17 @@ class _StatisticsPageState extends State<StatisticsPage> {
   }
 
   Future _getData() async {
-    String url = "${GlobaolConstants.url}all";
-    var stat = await Auth.shared.request(url);
+    String url = "${GlobaolConstants.url}countries";
+    final countries = await Auth.shared.request(url);
     setState(() {
-      _stat = Stat.fromJson(stat);
+      _countries = [];
+      for(int i = 0; i < countries.length; i++) {
+        Country country = Country.fromJson(countries[i]);
+        if (country.country.toLowerCase() == 'nepal') {
+          _myCountry = country;
+        }
+        _countries.add(country);
+      }
     });
   }
 }
